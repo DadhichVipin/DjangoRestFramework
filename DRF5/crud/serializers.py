@@ -7,11 +7,21 @@ in this case we will use myapp.py file
 
 
 ***** Field level Validation *****
+***** Object level Validation *****
+***** Validators Validation *****
 """
 
 
+# validator
+def start_with_uppercase(value):
+    if value[0].isupper():
+        return value
+    else:
+        raise serializers.ValidationError('Should Start with Uppercase')
+
+
 class StudentSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=100)
+    name = serializers.CharField(max_length=100, validators=[start_with_uppercase])
     roll = serializers.IntegerField()
     city = serializers.CharField(max_length=100)
 
@@ -39,3 +49,5 @@ class StudentSerializer(serializers.Serializer):
         if nam.islower() or city.islower():
             raise serializers.ValidationError("Name and City can not be in lower case")
         return data
+
+
