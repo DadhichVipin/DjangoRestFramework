@@ -30,3 +30,12 @@ class StudentSerializer(serializers.Serializer):
         if value >= 200:
             raise serializers.ValidationError("Seat Full... ")
         return value
+
+    # Object Level Validation
+    def validate(self, data):
+        nam = data.get('name')
+        city = data.get('city')
+
+        if nam.islower() or city.islower():
+            raise serializers.ValidationError("Name and City can not be in lower case")
+        return data
