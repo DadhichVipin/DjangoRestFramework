@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Student
 from .serializers import StudentSerializer
+
 """
 *************** DRF function based view - @api_view ******************
 function based view 
@@ -36,12 +37,13 @@ Put - Complete update
 patch - partial update
 """
 
-@api_view(['GET','POST', 'PUT', 'PATCH', 'DELETE'])
+
+@api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def student_api(request, pk=None):
     if request.method == 'GET':
         id = pk
         if id is not None:
-            stu = Student.objects.get(id = id)
+            stu = Student.objects.get(id=id)
             serializer = StudentSerializer(stu)
             return Response(serializer.data)
 
@@ -57,7 +59,7 @@ def student_api(request, pk=None):
         return Response(serializer.errors)
 
     if request.method == 'PUT':
-        stu = Student.objects.get(pk= pk)
+        stu = Student.objects.get(pk=pk)
         serializer = StudentSerializer(stu, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -65,7 +67,7 @@ def student_api(request, pk=None):
         return Response(serializer.errors)
 
     if request.method == 'PATCH':
-        stu = Student.objects.get(pk= pk)
+        stu = Student.objects.get(pk=pk)
         serializer = StudentSerializer(stu, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -73,6 +75,6 @@ def student_api(request, pk=None):
         return Response(serializer.errors)
 
     if request.method == 'DELETE':
-        stu = Student.objects.get(pk= pk)
+        stu = Student.objects.get(pk=pk)
         stu.delete()
-        return Response({'msg':'Data Deleted'})
+        return Response({'msg': 'Data Deleted'})
